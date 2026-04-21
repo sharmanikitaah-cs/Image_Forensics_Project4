@@ -1,1 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Image Forensics System</title>
 
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+}
+
+/* NAVBAR */
+.navbar {
+    background: #020617;
+    padding: 15px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    color: #22c55e;
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #1e293b, #020617);
+}
+
+.hero h1 {
+    font-size: 50px;
+    color: #22c55e;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #cbd5f5;
+}
+
+/* SECTION */
+.section {
+    padding: 30px;
+}
+
+/* UPLOAD BOX */
+.upload-box {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    flex: 1;
+}
+
+button {
+    background: #22c55e;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #16a34a;
+}
+
+/* CARDS */
+.card {
+    background: #1e293b;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.images {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.images img {
+    width: 250px;
+    border-radius: 8px;
+}
+
+/* FOOTER */
+.footer {
+    background: #020617;
+    padding: 30px;
+    margin-top: 40px;
+}
+
+.footer-columns {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.footer h3 {
+    color: #22c55e;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+<a href="#">Home</a>
+<a href="#">About</a>
+<a href="#">Services</a>
+<a href="#">Contact</a>
+<a href="#">Help</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+<h1>🔍 Image Forensics System</h1>
+<p>
+Detect image manipulation using ELA, heatmaps, metadata, and AI-based scoring.
+</p>
+</div>
+
+<!-- ABOUT -->
+<div class="section">
+<h2>About This Project</h2>
+<p>
+This website helps verify whether an image is real or manipulated. It uses
+forensic techniques such as Error Level Analysis, metadata inspection, and
+heatmap detection to analyze images and determine authenticity.
+</p>
+</div>
+
+<!-- UPLOAD SECTION -->
+<div class="section">
+
+<h2>Upload Options</h2>
+
+<div style="display:flex; gap:20px; flex-wrap:wrap;">
+
+<!-- BLOCK 1 -->
+<div class="upload-box">
+<h3>Single Image Check</h3>
+<form method="POST" enctype="multipart/form-data">
+<input type="file" name="images" required>
+<br><br>
+<button type="submit">Check Image</button>
+</form>
+</div>
+
+<!-- BLOCK 2 -->
+<div class="upload-box">
+<h3>Multiple Image Comparison</h3>
+<form method="POST" enctype="multipart/form-data">
+<input type="file" name="images" multiple required>
+<br><br>
+<button type="submit">Compare Images</button>
+</form>
+</div>
+
+<!-- BLOCK 3 -->
+<div class="upload-box">
+<h3>Advanced Forensic Scan</h3>
+<form method="POST" enctype="multipart/form-data">
+<input type="file" name="images" multiple required>
+<br><br>
+<button type="submit">Run Full Analysis</button>
+</form>
+</div>
+
+</div>
+
+</div>
+
+<!-- RESULTS -->
+{% if results %}
+
+<div class="section">
+
+<h2>Analysis Results</h2>
+
+{% for img in results %}
+
+<div class="card">
+
+<h3>{{ img.name }}</h3>
+
+<p><b>Score:</b> {{ img.score }}</p>
+<p><b>Status:</b> {{ img.class }}</p>
+
+<p><b>Camera:</b> {{ img.camera }}</p>
+<p><b>Date:</b> {{ img.date }}</p>
+<p><b>Software:</b> {{ img.software }}</p>
+
+<div class="images">
+<img src="{{ url_for('static', filename='uploads/' + img.name) }}">
+<img src="{{ url_for('static', filename='uploads/' + img.ela) }}">
+<img src="{{ url_for('static', filename='uploads/' + img.heatmap) }}">
+</div>
+
+</div>
+
+{% endfor %}
+
+<div class="card">
+
+<h2>Most Authentic Image</h2>
+<p style="color:#22c55e; font-weight:bold;">{{ authentic }}</p>
+
+<a href="/download">
+<button>Download Report (PDF)</button>
+</a>
+
+</div>
+
+</div>
+
+{% endif %}
+
+<!-- FOOTER -->
+<div class="footer">
+
+<div class="footer-columns">
+
+<div>
+<h3>About Us</h3>
+<p>We are students building a digital forensic website.</p>
+</div>
+
+<div>
+<h3>Contact</h3>
+<p>Email: example@gmail.com</p>
+<p>Phone: +91-XXXXXXXXXX</p>
+</div>
+
+<div>
+<h3>Support</h3>
+<p>Help Center</p>
+<p>FAQs</p>
+</div>
+
+<div>
+<h3>Services</h3>
+<p>Image Verification</p>
+<p>Forgery Detection</p>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
